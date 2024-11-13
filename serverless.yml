@@ -1,0 +1,34 @@
+org: edsonguardamino
+service: api-descuentos_estudiantes
+
+provider:
+  name: aws
+  runtime: python3.12
+  iam:
+    role: arn:aws:iam::051476014162:role/LabRole
+
+functions:
+  listar:
+    handler: LeerDescuentos_Estudiante.lambda_handler
+    events:
+      - http:
+          path: /descuentos/listar
+          method: post
+          cors: true
+          integration: lambda
+  modificar:
+    handler: DescontarStockDescuento_Estudiante.lambda_handler
+    events:
+      - http:
+          path: /descuentos/modificar
+          method: put
+          cors: true
+          integration: lambda
+  eliminar:
+    handler: DeleteDescuento_Estudiante.lambda_handler
+    events:
+      - http:
+          path: /descuentos/eliminar
+          method: delete
+          cors: true
+          integration: lambda
