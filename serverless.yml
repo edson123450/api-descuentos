@@ -1,5 +1,5 @@
 org: edsonguardamino
-service: api-descuentos_estudiantes
+service: api-descuentosestudiantes
 
 provider:
   name: aws
@@ -16,6 +16,17 @@ functions:
           method: post
           cors: true
           integration: lambda
+          request:
+            template:
+              application/json: |
+                {
+                  "method": "$context.httpMethod",
+                  "path": "$context.path",
+                  "headers": {
+                    "Authorization": "$input.params('Authorization')"
+                  },
+                  "body": $input.json('$')
+                }
   modificar:
     handler: DescontarStockDescuento_Estudiante.lambda_handler
     events:
@@ -24,6 +35,18 @@ functions:
           method: put
           cors: true
           integration: lambda
+          request:
+            template:
+              application/json: |
+                {
+                  "method": "$context.httpMethod",
+                  "path": "$context.path",
+                  "headers": {
+                    "Authorization": "$input.params('Authorization')"
+                  },
+                  "body": $input.json('$')
+                }
+
   eliminar:
     handler: DeleteDescuento_Estudiante.lambda_handler
     events:
@@ -32,3 +55,36 @@ functions:
           method: delete
           cors: true
           integration: lambda
+          request:
+            template:
+              application/json: |
+                {
+                  "method": "$context.httpMethod",
+                  "path": "$context.path",
+                  "headers": {
+                    "Authorization": "$input.params('Authorization')"
+                  },
+                  "body": $input.json('$')
+                }
+  listargsi:
+    handler: LeerDescuento_UniversidadGSI.lambda_handler
+    events:
+      - http:
+          path: /descuentos/listar-gsi
+          method: post
+          cors: true
+          integration: lambda
+          request:
+            template:
+              application/json: |
+                {
+                  "method": "$context.httpMethod",
+                  "path": "$context.path",
+                  "headers": {
+                    "Authorization": "$input.params('Authorization')"
+                  },
+                  "body": $input.json('$')
+                }
+  validartoken:
+    handler: ValidarTokenEstudiante.lambda_handler
+    name: ValidarTokenEstudiante
