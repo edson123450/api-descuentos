@@ -88,3 +88,34 @@ functions:
   validartoken:
     handler: ValidarTokenEstudiante.lambda_handler
     name: ValidarTokenEstudiante
+
+resources:
+  Resources:
+    TablaDescuentos:
+      Type: AWS::DynamoDB::Table
+      Properties:
+        TableName: tabla_descuentos
+        AttributeDefinitions:
+          - AttributeName: tenant_id#c_estudiante
+            AttributeType: S
+          - AttributeName: c_descuento
+            AttributeType: S
+          - AttributeName: tenant_id#c_descuento
+            AttributeType: S
+          - AttributeName: c_estudiante
+            AttributeType: S
+        KeySchema:
+          - AttributeName: tenant_id#c_estudiante
+            KeyType: HASH
+          - AttributeName: c_descuento
+            KeyType: RANGE
+        GlobalSecondaryIndexes:
+          - IndexName: second02index
+            KeySchema:
+              - AttributeName: tenant_id#c_descuento
+                KeyType: HASH
+              - AttributeName: c_estudiante
+                KeyType: RANGE
+            Projection:
+              ProjectionType: ALL
+        BillingMode: PAY_PER_REQUEST
