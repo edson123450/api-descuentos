@@ -5,7 +5,7 @@ provider:
   name: aws
   runtime: python3.12
   iam:
-    role: arn:aws:iam::051476014162:role/LabRole
+    role: arn:aws:iam::547527107767:role/LabRole
 
 functions:
   listar:
@@ -46,7 +46,6 @@ functions:
                   },
                   "body": $input.json('$')
                 }
-
   eliminar:
     handler: DeleteDescuento_Estudiante.lambda_handler
     events:
@@ -119,3 +118,19 @@ resources:
             Projection:
               ProjectionType: ALL
         BillingMode: PAY_PER_REQUEST
+        PointInTimeRecoverySpecification:
+          PointInTimeRecoveryEnabled: true
+
+    TablaTokensAcceso:
+      Type: AWS::DynamoDB::Table
+      Properties:
+        TableName: tabla_tokens_acceso
+        AttributeDefinitions:
+          - AttributeName: token
+            AttributeType: S
+        KeySchema:
+          - AttributeName: token
+            KeyType: HASH
+        BillingMode: PAY_PER_REQUEST
+        PointInTimeRecoverySpecification:
+          PointInTimeRecoveryEnabled: true
